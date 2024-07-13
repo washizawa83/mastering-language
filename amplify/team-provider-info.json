@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-masteringlanguage-dev-ba1da-authRole",
+      "UnauthRoleArn": "arn:aws:iam::936964319394:role/amplify-masteringlanguage-dev-ba1da-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::936964319394:role/amplify-masteringlanguage-dev-ba1da-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-masteringlanguage-dev-ba1da-deployment",
+      "UnauthRoleName": "amplify-masteringlanguage-dev-ba1da-unauthRole",
+      "StackName": "amplify-masteringlanguage-dev-ba1da",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:936964319394:stack/amplify-masteringlanguage-dev-ba1da/bf38c110-410e-11ef-a716-0aaf5f31fe85",
+      "AmplifyAppId": "dbeiagk7i9wqp"
+    },
+    "categories": {
+      "auth": {
+        "masteringlanguagecd40984e": {}
+      }
+    }
+  }
+}
