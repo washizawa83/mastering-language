@@ -2,15 +2,16 @@ import Link from 'next/link';
 
 type Props = {
     name: string;
-    cardCount: number;
-    perfect: number;
-    good: number;
-    Fight: number;
+    deckId: string;
+    cardCount?: number;
+    perfect?: number;
+    good?: number;
+    Fight?: number;
 };
 
 export const DeckListItem = (props: Props) => {
     return (
-        <Link href=''>
+        <Link href={`card/${props.deckId}`}>
             <div className='flex justify-between items-center p-4 border-2 mb-4'>
                 <div>
                     <h3>{props.name}</h3>

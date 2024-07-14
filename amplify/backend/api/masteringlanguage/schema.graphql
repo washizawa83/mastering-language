@@ -1,0 +1,29 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+
+type Deck @model {
+  id: ID! @primaryKey
+  user_id: String! @index(name: "user_id_index", sortKeyFields: ["updatedAt"])
+  cards: [Card] @hasMany
+  name: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Card @model {
+  id: ID!
+  user_id: String!
+  deck: Deck @belongsTo
+  sentence: String!
+  meaning: String!
+  image: String
+  etymology: String
+  next_answer_date: String
+  previous_answer_date: String
+  retention_state: Boolean!
+  savings_score: Int!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
