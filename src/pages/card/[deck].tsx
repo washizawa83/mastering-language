@@ -1,16 +1,16 @@
-import { DeckListItem } from '@/components/ui/DeckListItem';
+import BasePage from '@/components/page-utils/BasePage';
 import { MLButton } from '@/components/ui/MLButton';
+import { MLCardListItem } from '@/components/ui/MLCardListItem';
 import { MLPageHeader } from '@/components/ui/MLPageHeader';
 import * as queries from '@/graphql/queries';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { generateClient } from 'aws-amplify/api';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 const client = generateClient();
 
-type FetchCard = {
+export type FetchCard = {
     id: string;
     user_id: string;
     sentence: string;
@@ -58,22 +58,24 @@ export default function CardsPage() {
     };
 
     return (
-        <main className='size-11/12 mx-auto pt-14'>
-            <MLPageHeader>
-                <h2>カードリスト</h2>
-                <div>
-                    <MLButton
-                        label='カード追加'
-                        onClick={() => transitionCreateCardPage()}
+        <BasePage allowAuthenticate={true}>
+            <main className='size-11/12 mx-auto pt-14'>
+                <MLPageHeader>
+                    <h2>カードリスト</h2>
+                    <div>
+                        <MLButton
+                            label='カード追加'
+                            onClick={() => transitionCreateCardPage()}
+                        />
+                    </div>
+                </MLPageHeader>
+                {allCards.map((card, i) => (
+                    <MLCardListItem
+                        key={i}
+                        {...card}
                     />
-                </div>
-            </MLPageHeader>
-            {allCards.map((card, i) => (
-                <div key={i} className='p-4 border-2'>
-                    <h3>{card.sentence}</h3>
-                    <p>{card.meaning}</p>
-                </div>
-            ))}
-        </main>
+                ))}
+            </main>
+        </BasePage>
     );
 }
