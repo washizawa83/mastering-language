@@ -1,46 +1,88 @@
 {
-  "api": {
-    "masteringlanguage": {
-      "dependsOn": [],
-      "output": {
-        "authConfig": {
-          "additionalAuthenticationProviders": [],
-          "defaultAuthentication": {
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
+    "api": {
+        "masteringlanguage": {
+            "dependsOn": [],
+            "output": {
+                "authConfig": {
+                    "additionalAuthenticationProviders": [],
+                    "defaultAuthentication": {
+                        "apiKeyConfig": {
+                            "apiKeyExpirationDays": 7
+                        },
+                        "authenticationType": "API_KEY"
+                    }
+                }
             },
-            "authenticationType": "API_KEY"
-          }
+            "providerPlugin": "awscloudformation",
+            "service": "AppSync"
         }
-      },
-      "providerPlugin": "awscloudformation",
-      "service": "AppSync"
-    }
-  },
-  "auth": {
-    "masteringlanguagecd40984e": {
-      "customAuth": false,
-      "dependsOn": [],
-      "frontendAuthConfig": {
-        "mfaConfiguration": "OFF",
-        "mfaTypes": [
-          "SMS"
-        ],
-        "passwordProtectionSettings": {
-          "passwordPolicyCharacters": [],
-          "passwordPolicyMinLength": 8
+    },
+    "auth": {
+        "masteringlanguagecd40984e": {
+            "customAuth": false,
+            "dependsOn": [],
+            "frontendAuthConfig": {
+                "mfaConfiguration": "OFF",
+                "mfaTypes": [
+                    "SMS"
+                ],
+                "passwordProtectionSettings": {
+                    "passwordPolicyCharacters": [],
+                    "passwordPolicyMinLength": 8
+                },
+                "signupAttributes": [
+                    "EMAIL"
+                ],
+                "socialProviders": [],
+                "usernameAttributes": [],
+                "verificationMechanisms": [
+                    "EMAIL"
+                ]
+            },
+            "providerPlugin": "awscloudformation",
+            "service": "Cognito"
+        }
+    },
+    "function": {
+        "S3Trigger2d4b9b50": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda"
+        }
+    },
+    "parameters": {
+        "AMPLIFY_function_S3Trigger2d4b9b50_deploymentBucketName": {
+            "usedBy": [
+                {
+                    "category": "function",
+                    "resourceName": "S3Trigger2d4b9b50"
+                }
+            ]
         },
-        "signupAttributes": [
-          "EMAIL"
-        ],
-        "socialProviders": [],
-        "usernameAttributes": [],
-        "verificationMechanisms": [
-          "EMAIL"
-        ]
-      },
-      "providerPlugin": "awscloudformation",
-      "service": "Cognito"
+        "AMPLIFY_function_S3Trigger2d4b9b50_s3Key": {
+            "usedBy": [
+                {
+                    "category": "function",
+                    "resourceName": "S3Trigger2d4b9b50"
+                }
+            ]
+        }
+    },
+    "storage": {
+        "s3EnglishImagee": {
+            "dependsOn": [
+                {
+                    "attributes": [
+                        "Name",
+                        "Arn",
+                        "LambdaExecutionRole"
+                    ],
+                    "category": "function",
+                    "resourceName": "S3Trigger2d4b9b50"
+                }
+            ],
+            "providerPlugin": "awscloudformation",
+            "service": "S3"
+        }
     }
-  }
 }

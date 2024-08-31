@@ -1,16 +1,16 @@
 import { MLButton } from '@/components/ui/MLButton';
 import * as mutations from '@/graphql/mutations';
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { StorageManager } from '@aws-amplify/ui-react-storage';
 import { generateClient } from 'aws-amplify/api';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type FormData = {
     sentence: string;
     meaning: string;
-    image: string;
     etymology: string;
 };
 const client = generateClient();
@@ -18,6 +18,7 @@ const client = generateClient();
 export default function CreateCardPage() {
     const { user } = useAuthenticator((context) => [context.route]);
     const router = useRouter();
+    const [imagePath, setImagePath] = useState<string | null>(null);
     const { register, handleSubmit } = useForm();
 
     useEffect(() => {
@@ -25,9 +26,9 @@ export default function CreateCardPage() {
         script.src = 'https://cse.google.com/cse.js?cx=c34c3fe642a404b18';
         script.async = true;
         document.body.appendChild(script);
-    
+
         return () => {
-          document.body.removeChild(script);
+            document.body.removeChild(script);
         };
     }, []);
 
@@ -40,12 +41,14 @@ export default function CreateCardPage() {
     const createCard = async (data: FormData) => {
         if (user === undefined) return;
         if (!router?.query?.deck) return;
+        console.log(imagePath);
         try {
             const newCard = {
                 user_id: user.userId,
                 retention_state: false,
                 savings_score: 1,
                 deckCardsId: router.query.deck as string,
+                image: imagePath,
                 ...data,
             };
             await client.graphql({
@@ -57,6 +60,17 @@ export default function CreateCardPage() {
             console.log(e);
         }
     };
+
+    const processFile = ({ file, key }: any) => {
+        return {
+            file,
+            key: self.crypto.randomUUID(),
+            metadata: {
+                id: key,
+            },
+        };
+    };
+
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
@@ -87,8 +101,27 @@ export default function CreateCardPage() {
             </div>
             <div className='flex flex-col mb-4'>
                 <label htmlFor='image'>画像</label>
-                <div className="gcse-search"></div>
-                <input type='file' />
+                <div className='gcse-search'></div>
+                <StorageManager
+                    acceptedFileTypes={[
+                        '.bmp',
+                        '.png',
+                        '.jpeg',
+                        '.jpg',
+                        'image/png',
+                    ]}
+                    path={`public/images/users/${user?.userId}/`}
+                    maxFileCount={1}
+                    maxFileSize={100000}
+                    processFile={processFile}
+                    onUploadError={(error, { key }) => {
+                        console.log('アップロードエラー', error);
+                    }}
+                    onUploadSuccess={({ key }) => {
+                        if (!key) return;
+                        setImagePath(key);
+                    }}
+                />
             </div>
             <div className='flex flex-col mb-4'>
                 <label htmlFor='etymology'>語源</label>
@@ -101,8 +134,18 @@ export default function CreateCardPage() {
                 </textarea>
             </div>
             <div className='flex justify-center'>
-                <MLButton label='続けて作成' type='submit' name='continuing-create' onClick={() => undefined} />
-                <MLButton label='作成' type='submit' name='create' onClick={() => undefined} />
+                <MLButton
+                    label='続けて作成'
+                    type='submit'
+                    name='continuing-create'
+                    onClick={() => undefined}
+                />
+                <MLButton
+                    label='作成'
+                    type='submit'
+                    name='create'
+                    onClick={() => undefined}
+                />
             </div>
         </form>
     );
