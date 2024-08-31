@@ -43,7 +43,7 @@ export const MLCardListItem = (props: FetchCard) => {
                 <div>
                     {props.image && (
                         <div>
-                            <StorageImage alt='sleepy-cat' path={props.image} />
+                            <StorageImage alt='' path={props.image} />
                         </div>
                     )}
                 </div>
