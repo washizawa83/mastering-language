@@ -18,7 +18,7 @@ const client = generateClient();
 export default function CreateCardPage() {
     const { user } = useAuthenticator((context) => [context.route]);
     const router = useRouter();
-    const [imagePath, setImagePath] = useState<string | null>(null);
+    const [imagePath, setImagePath] = useState('');
     const { register, handleSubmit } = useForm();
 
     useEffect(() => {
@@ -41,7 +41,6 @@ export default function CreateCardPage() {
     const createCard = async (data: FormData) => {
         if (user === undefined) return;
         if (!router?.query?.deck) return;
-        console.log(imagePath);
         try {
             const newCard = {
                 user_id: user.userId,
