@@ -35,8 +35,8 @@ export default function CardsPage() {
     }, [router]);
 
     const transitionCreateCardPage = () => {
-        router.push(`/create-card/${router.query.deck}`)
-    }
+        router.push(`/create-card/${router.query.deck}`);
+    };
 
     const fetchDecks = async () => {
         if (user === undefined) return;
@@ -62,7 +62,10 @@ export default function CardsPage() {
             <MLPageHeader>
                 <h2>カードリスト</h2>
                 <div>
-                    <MLButton label='カード追加' onClick={() => transitionCreateCardPage()} />
+                    <MLButton
+                        label='カード追加'
+                        onClick={() => transitionCreateCardPage()}
+                    />
                 </div>
             </MLPageHeader>
             {allCards.map((card, i) => (

@@ -1,0 +1,14 @@
+{
+    "resourceName": "s3EnglishImagee",
+    "policyUUID": "6d24de53",
+    "bucketName": "masteringlanguage48493bab40b24d1d807d605c2bbbd4",
+    "storageAccess": "auth",
+    "guestAccess": [],
+    "authAccess": [
+        "CREATE_AND_UPDATE",
+        "READ",
+        "DELETE"
+    ],
+    "triggerFunction": "S3Trigger2d4b9b50",
+    "groupAccess": {}
+}
