@@ -6,6 +6,7 @@ import { Amplify } from 'aws-amplify';
 import awsExports from '../aws-exports';
 import '@aws-amplify/ui-react/styles.css';
 import Header from '@/components/page-utils/Header';
+import Head from 'next/head';
 Amplify.configure(awsExports);
 
 export default function MyApp({ Component, pageProps }: AppProps) {

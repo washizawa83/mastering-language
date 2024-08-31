@@ -1,4 +1,5 @@
 import React, { ReactNode, useEffect } from 'react';
+import { MLButton } from './MLButton';
 
 export type ModalProps = {
     title: string;
@@ -17,12 +18,10 @@ export const MessageDialog = (props: ModalProps) => {
                     <h1 className='text-xl font-bold mb-5'>{props.title}</h1>
                     <div className='w-full'>{props.children}</div>
                     <div className='flex mt-auto w-full'>
-                        <button
-                            className='bg-slate-900 hover:bg-slate-700 text-white px-8 py-2 mx-auto'
+                        <MLButton
+                            label={props.buttonLabel}
                             onClick={() => props.onOk()}
-                        >
-                            {props.buttonLabel}
-                        </button>
+                        />
                     </div>
                 </div>
                 <div
