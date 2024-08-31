@@ -1,11 +1,12 @@
 import BasePage from '@/components/page-utils/BasePage';
 import { DeckListItem } from '@/components/ui/DeckListItem';
+import { MLButton } from '@/components/ui/MLButton';
+import { MLPageHeader } from '@/components/ui/MLPageHeader';
 import { MessageDialog } from '@/components/ui/Modal';
 import * as mutations from '@/graphql/mutations';
 import * as queries from '@/graphql/queries';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { generateClient } from 'aws-amplify/api';
-import { revalidatePath } from 'next/cache';
 import { useEffect, useState } from 'react';
 
 const client = generateClient();
@@ -29,7 +30,9 @@ export default function DeckPage() {
         setNewDeckName('');
     };
 
-    const changeNewDeckName = (event: any): void => {
+    const changeNewDeckName = (
+        event: React.ChangeEvent<HTMLInputElement>,
+    ): void => {
         if (!event?.target?.value) return setNewDeckName('');
         return setNewDeckName(event.target.value);
     };
@@ -59,6 +62,7 @@ export default function DeckPage() {
 
     const createDeck = async () => {
         handleCancel();
+        if (newDeckName === '') return;
         try {
             const newDeck = {
                 name: newDeckName,
@@ -93,11 +97,18 @@ export default function DeckPage() {
                     />
                 </div>
             </MessageDialog>
+
             <main className='size-11/12 mx-auto pt-14'>
-                <div className='flex justify-between border-b-2 mb-4'>
+                <MLPageHeader>
                     <h2>デッキリスト</h2>
-                    <button onClick={() => setIsOpen(true)}>デッキ追加</button>
-                </div>
+                    <div>
+                        <MLButton
+                            label='デッキ追加'
+                            onClick={() => setIsOpen(true)}
+                        />
+                    </div>
+                </MLPageHeader>
+
                 {allDecks.map((deck, i) => (
                     <DeckListItem
                         key={i}

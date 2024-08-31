@@ -1,8 +1,10 @@
-'use client';
+import { MLButton } from '@/components/ui/MLButton';
 import * as mutations from '@/graphql/mutations';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { generateClient } from 'aws-amplify/api';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 type FormData = {
@@ -17,6 +19,18 @@ export default function CreateCardPage() {
     const { user } = useAuthenticator((context) => [context.route]);
     const router = useRouter();
     const { register, handleSubmit } = useForm();
+
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = 'https://cse.google.com/cse.js?cx=c34c3fe642a404b18';
+        script.async = true;
+        document.body.appendChild(script);
+    
+        return () => {
+          document.body.removeChild(script);
+        };
+    }, []);
+
     const onSubmit = (data: any, event: any) => {
         const buttonName = event.nativeEvent.submitter.name;
         console.log(buttonName);
@@ -62,7 +76,8 @@ export default function CreateCardPage() {
             <div className='flex flex-col mb-4'>
                 <label htmlFor='meaning'>日本語の意味</label>
                 <textarea
-                    className='border-2'
+                    rows={5}
+                    className='border-2 p-2 font-mono'
                     id='meaning'
                     {...register('meaning', {
                         required: '意味を入力してください',
@@ -72,39 +87,22 @@ export default function CreateCardPage() {
             </div>
             <div className='flex flex-col mb-4'>
                 <label htmlFor='image'>画像</label>
-                <input
-                    id='image'
-                    {...register('image')}
-                    className='border-2'
-                    type='text'
-                    placeholder='画像検索'
-                />
+                <div className="gcse-search"></div>
                 <input type='file' />
             </div>
             <div className='flex flex-col mb-4'>
                 <label htmlFor='etymology'>語源</label>
                 <textarea
-                    className='border-2'
+                    rows={5}
+                    className='border-2 p-2 font-mono'
                     id='etymology'
                     {...register('etymology')}
                 >
                 </textarea>
             </div>
             <div className='flex justify-center'>
-                <button
-                    className='border-2 p-2 mx-2'
-                    type='submit'
-                    name='continuing-create'
-                >
-                    続けて作成
-                </button>
-                <button
-                    className='border-2 p-2 mx-2'
-                    type='submit'
-                    name='create'
-                >
-                    作成
-                </button>
+                <MLButton label='続けて作成' type='submit' name='continuing-create' onClick={() => undefined} />
+                <MLButton label='作成' type='submit' name='create' onClick={() => undefined} />
             </div>
         </form>
     );

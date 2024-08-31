@@ -15,8 +15,8 @@ export default function BasePage({ children, allowAuthenticate }: Props) {
         return <Authenticator />;
     };
     return (
-        <div>
+        <main>
             {renderChildComponent()}
-        </div>
+        </main>
     );
 }

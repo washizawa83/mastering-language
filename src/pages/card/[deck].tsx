@@ -1,4 +1,6 @@
 import { DeckListItem } from '@/components/ui/DeckListItem';
+import { MLButton } from '@/components/ui/MLButton';
+import { MLPageHeader } from '@/components/ui/MLPageHeader';
 import * as queries from '@/graphql/queries';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { generateClient } from 'aws-amplify/api';
@@ -32,6 +34,10 @@ export default function CardsPage() {
         fetchDecks();
     }, [router]);
 
+    const transitionCreateCardPage = () => {
+        router.push(`/create-card/${router.query.deck}`)
+    }
+
     const fetchDecks = async () => {
         if (user === undefined) return;
         try {
@@ -53,12 +59,12 @@ export default function CardsPage() {
 
     return (
         <main className='size-11/12 mx-auto pt-14'>
-            <div className='flex justify-between border-b-2 mb-4'>
+            <MLPageHeader>
                 <h2>カードリスト</h2>
-                <Link href={`/create-card/${router.query.deck}`}>
-                    カード追加
-                </Link>
-            </div>
+                <div>
+                    <MLButton label='カード追加' onClick={() => transitionCreateCardPage()} />
+                </div>
+            </MLPageHeader>
             {allCards.map((card, i) => (
                 <div key={i} className='p-4 border-2'>
                     <h3>{card.sentence}</h3>
